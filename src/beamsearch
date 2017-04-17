@@ -1,0 +1,10 @@
+#!/bin/bash
+al="../adjacency_lists/g1.al"
+heu="../adjacency_lists/g1.heu"
+src="1"
+dst="21"
+k="2"
+findall="1"
+debug="0"
+
+python beam.py $al $heu $src $dst $k $findall $debug

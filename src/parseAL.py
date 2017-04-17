@@ -60,8 +60,6 @@ def parse_al(al):
     # Give each node it's children, based off of edges.
     # Also give each node its edges.
     for n in nodes:
-        n.children = []
-        n.edges = []
         for e in edges:
             if e.src == n:
                 n.children.append(e.dst)
