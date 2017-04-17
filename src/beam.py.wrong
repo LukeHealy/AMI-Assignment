@@ -1,0 +1,77 @@
+import sys
+from parseAL import get_graph
+from parseHeu import get_heuristics
+from operator import attrgetter
+
+
+###
+# Recursive implementation of an informed Beam search.
+#
+
+##
+# Wrapper for the search harness script to call.
+#
+def search(current_node, dst, k):
+    solution = []
+    it_just_keeps_happening(k, solution, current_node, dst, False)
+    return solution
+
+
+# Utility to grab a node object given it's name.
+#
+def get_node_by_name(graph, name):
+    for g in graph:
+        if g.name == name:
+            return g
+
+##
+# Where the good stuff happens.
+#
+def it_just_keeps_happening(k, solution, current_node, dst, found):
+    # Set visited flag.
+    current_node.visited = True
+    # For each child of the current node. Limit the list to the first k values.
+    best_children = sorted(filter(
+        lambda cn : not cn.visited, current_node.children), key=attrgetter("h1"))
+
+    for c in best_children[:k]:
+        # If we aren't going backwards and haven't found the goal.
+        if not found and not c.visited:
+            # Add node the the "stack".
+            solution.append(current_node)
+            # If the child is the goal, add it to the path and we're done.
+            if c == dst:
+                found = True
+                solution.append(c)
+            else:
+                # Else recurse on the child as the current node.
+                # We actually don't need this in the else clause, but it saves
+                # a function call and makes sense.
+                found = it_just_keeps_happening(k, solution, c, dst, found)
+
+            # Remove any nodes we go to which are a dead end.
+            # This works because if we reach past the function call,
+            # we must have taken a wrong turn and we need to backtrack.
+            if not found:
+                solution.remove(current_node)
+    
+    return found
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        print "Usage: python beam.py <adgacency_list.al> <heuristic_list.heu> <src> <dst> <K>"
+        exit(1)
+
+    nodes = get_graph(sys.argv[1])
+    get_heuristics(sys.argv[2], nodes)
+    src_node = get_node_by_name(nodes, sys.argv[3])
+    dst_node = get_node_by_name(nodes, sys.argv[4])
+
+    solution = search(src_node, dst_node, int(sys.argv[5]))
+
+    ans = ""
+    for n in solution:
+        ans += n.name + ", "
+
+    print("[" + ans[0:len(ans) - 2] + "]")
+    

@@ -1,0 +1,10 @@
+A B 25
+A E 75
+A D 25
+A C 25
+B E 60
+C D 15
+D F 65
+E F 20
+E G 45
+F G 39
