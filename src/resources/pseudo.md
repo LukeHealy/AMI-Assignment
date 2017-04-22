@@ -242,7 +242,7 @@ end;
 ~~~
 
 
-## Mine
+## Mine 1
 
 ~~~c
 sma_star(src, dst)
@@ -274,7 +274,7 @@ sma_star(src, dst)
         else // Calculate the f-cost
             // f-cost will be the parents f-cost OR
             // g + h, which ever is bigger.
-            // Why? IDFK
+            // This is the pathmax optimisation
             succ.f = max(node.f, succ.g + succ.h)
         // Backup if we have fully searched all successors
         if !node.more_successors()
@@ -293,8 +293,8 @@ sma_star(src, dst)
             delete open[-1]
             // Remove it from it's parents successors
             n.parent.cleanup_successor(n)
-            // WTF?
-            if necessary() // WTF?
+            // 
+            if parent_not_in_open_list
                 open.append(n.parent)
             // Open up a space
             used -= 1
@@ -311,4 +311,76 @@ backup(node)
         if temp_f != n.f
             backup(node.parent)
 END backup
+~~~
+
+
+## Mine 2
+
+~~~c
+
+
+~~~
+# IDA*
+
+## Wikipedia
+
+~~~c
+ node              current node
+ g                 the cost to reach current node
+ f                 estimated cost of the cheapest path (root..node..goal)
+ h(node)           estimated cost of the cheapest path (node..goal)
+ cost(node, succ)  step cost function
+ is_goal(node)     goal test
+ successors(node)  node expanding function, 
+    expand nodes ordered by g + h(node)
+ 
+ procedure ida_star(root)
+   bound := h(root)
+   loop
+     t := search(root, 0, bound)
+     if t = FOUND then return bound
+     if t = ∞ then return NOT_FOUND
+     bound := t
+   end loop
+ end procedure
+ 
+ function search(node, g, bound)
+   f := g + h(node)
+   if f > bound then return f
+   if is_goal(node) then return FOUND
+   min := ∞
+   for succ in successors(node) do
+     t := search(succ, g + cost(node, succ), bound)
+     if t = FOUND then return FOUND
+     if t < min then min := t
+   end for
+   return min
+ end function
+~~~
+
+# RBFS
+
+## AIMA
+
+~~~c
+function RECURSIVE-BEST-FIRST-SEARCH(problem) returns a solution, or 
+failure
+ return RBFS(problem,MAKE-NODE(problem.INITIAL-STATE),∞)
+
+function RBFS(problem,node,f_limit) returns a solution, or failure 
+and a new f-cost limit
+ if problem.GOAL-TEST(node.STATE) then return SOLUTION(node)
+ successors ← []
+ for each action in problem.ACTIONS(node.STATE) do
+   add CHILD-NODE(problem,node,action) into successors
+ if successors is empty then return failure,∞
+ for each s in successors do /* update f with value from previous 
+ search, if any */
+   s.f ← max(s.g + s.h, node.f)
+ loop do
+   best ← lowest f-value node in successors
+   if best.f > f_limit then return failure,best.f
+   alternative ← the second-lowest f-value among successors
+   result,best.f ← RBFS(problem,best,min(f_limit,alternative))
+   if result ≠ failure then return result
 ~~~

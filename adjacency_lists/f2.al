@@ -1,0 +1,15 @@
+A B 35
+A C 30
+B E 35
+D A 40
+D E 30
+E G 35
+D H 45
+F D 35
+C F 30
+J I 51
+I H 12
+I F 45
+H J 50
+G J 55
+H G 15

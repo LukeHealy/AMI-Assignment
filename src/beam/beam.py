@@ -1,5 +1,6 @@
 import sys
 import copy
+from beamnode import b_node
 from parseAL import get_graph
 from parseHeu import get_heuristics
 from operator import attrgetter
@@ -15,7 +16,6 @@ def search(src, dst, k, find_all, print_debug):
     solutions = beam_informercial(k, src, dst, find_all, print_debug)
 
     return solutions
-
 
 # Utility to grab a node object given it's name.
 #
@@ -121,7 +121,7 @@ if __name__ == '__main__':
         print "Usage: python beam.py <adgacency_list.al> <heuristic_list.heu> <src> <dst> <K> <findall> <debug>"
         exit(1)
 
-    nodes = get_graph(sys.argv[1])
+    nodes = get_graph(sys.argv[1], "beam")
     src_node = get_node_by_name(nodes, sys.argv[3])
     dst_node = get_node_by_name(nodes, sys.argv[4])
     get_heuristics(sys.argv[2], nodes, src_node, dst_node)

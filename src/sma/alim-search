@@ -1,0 +1,7 @@
+#!/bin/bash
+al="../../adjacency_lists/prac2.al"
+heu="../../adjacency_lists/prac2.heu"
+src="1"
+dst="15"
+
+python astar.py $al $heu $src $dst

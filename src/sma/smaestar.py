@@ -6,11 +6,11 @@
 
 import copy
 import sys
-from node import Node
+from smanode import s_node
 from parseAL import get_graph
 from parseHeu import get_heuristics
 
-MAX_NODES = 4
+MAX_NODES = 3
 INFINITY = -1
 
 ##
@@ -30,8 +30,9 @@ def goal_test(current, goal):
 def alzheimers_simulator(src, dst, total_cost):
     src.g = 0
     src.f = src.h
-    src.parent = Node("Source")
+    src.parent = s_node("Source")
     src.best_forgotten_f = 0
+    src.depth = 0
 
     open_ = []
     used = 1
@@ -40,7 +41,7 @@ def alzheimers_simulator(src, dst, total_cost):
 
     while True:
         print "---------------------------"
-        open_ = sorted(open_, key=lambda x: (x.f, -x.depth))
+        open_ = sorted(open_, key=lambda x: (x.f, -x.depth), reverse=True)
         sys.stdout.write("open: ")
         print_path(open_)
 
@@ -56,8 +57,8 @@ def alzheimers_simulator(src, dst, total_cost):
         sys.stdout.write("children: ")
         print_path(filter(lambda x: not x.name == best.parent.name, best.children))
         s = best.generate_next_successor()
-
-        print("s = " + s.name)
+        s.depth = best.depth + 1
+        print("s = " + s.name + " at depth: " + str(s.depth))
         s.g = float(s.get_edge(best, s).cost)
 
         if not goal_test(s, dst) and used > MAX_NODES:
@@ -66,30 +67,36 @@ def alzheimers_simulator(src, dst, total_cost):
             s.f = max(best.best_forgotten_f, best.g + s.g + s.h)
 
         if not best.more_successors():
+            print "no more successors"
             backup(best)
+            del open_[0]
+
 
         if is_subset_of(best.successors, open_):
-
             del open_[0]
 
         used += 1
 
         if used > MAX_NODES:
+            print "max memory reached"
             bad = open_[-1]
             del open_[-1]
 
-            bad.parent.cleanup_successor(bad)
+            if(bad.name != src.name):
+                bad.parent.cleanup_successor(bad)
 
-            if bad.parent.name not in [o.name for o in open_]: # Parent not in open, put it in
-                open.append(best.parent)
+                if bad.parent.name not in [o.name for o in open_]: # Parent not in open, put it in
+                    open_.append(best.parent)
 
             used += 1
-
+        
         open_.append(copy.copy(s))
+
 
 def is_subset_of(needle, haystack):
     h_names = [h.name for h in haystack]
     n_names = [n.name for n in needle]
+    sys.stdout.write("All successors in memory: ")
     print set(n_names).issubset(h_names)
     return set(n_names).issubset(h_names)
 
@@ -126,7 +133,7 @@ def get_node_by_name(graph, name):
         if g.name == name:
             return g
 
-def get_path_length(node):
+def get_depth(node):
     count = 0
     while node.parent != None:
         #print node
@@ -139,7 +146,7 @@ if __name__ == '__main__':
         print "Usage: python smaestar.py <adgacency_list.al> <heuristic_list.heu> <src> <dst>"
         exit(1)
 
-    nodes = get_graph(sys.argv[1])
+    nodes = get_graph(sys.argv[1], "sma")
     src_node = get_node_by_name(nodes, sys.argv[3])
     dst_node = get_node_by_name(nodes, sys.argv[4])
     get_heuristics(sys.argv[2], nodes, src_node, dst_node)

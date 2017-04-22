@@ -3,20 +3,7 @@
 #
 import copy
 
-class Node:
-    #name = ""
-    #children = []
-    #edges = []
-    #visited = False
-    #parent = None
-    #path = []
-
-    #depth = 0
-    #h = None
-    #best_forgotten_f = None
-    #f = None
-    #g = None
-    #successors = []
+class s_node:
 
     def __init__(self, name_):
         self.name = name_
@@ -69,7 +56,9 @@ class Node:
             return self.successors[-1]
 
     def cleanup_successor(self, node):
+        print self.name
         names = [node.name for node in self.successors]
+        print names
         idx = names.index(node.name)
         print idx
         for s in self.successors:

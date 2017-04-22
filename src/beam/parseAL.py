@@ -6,7 +6,7 @@
 # for each node, so any node can be the root.
 #
 import sys
-from node import Node
+from beamnode import b_node
 from edge import Edge
 
 nodes = []
@@ -25,7 +25,7 @@ def read_al(filename):
         exit(-1)
 
 
-def parse_al(al):
+def parse_al(al, mode):
     lines = al.split("\n")
 
     edges_ = {}
@@ -44,8 +44,12 @@ def parse_al(al):
 
     # Add blank nodes to a dict, based on edges.
     for e in edges:
-        nodes_[e.src] = Node(e.src)
-        nodes_[e.dst] = Node(e.dst)
+        if mode == "sma":
+            nodes_[e.src] = s_node(e.src)
+            nodes_[e.dst] = s_node(e.dst)
+        elif mode == "beam":
+            nodes_[e.src] = b_node(e.src)
+            nodes_[e.dst] = b_node(e.dst)
 
     # Add the blank nodes to a list of nodes.
     for n_ in nodes_.values():
@@ -80,9 +84,9 @@ def get_node_by_name(name):
 ##
 # I think it might get a graph?
 #
-def get_graph(filename):
+def get_graph(filename, mode):
     al = read_al(filename)
-    parse_al(al)
+    parse_al(al, mode)
     print("\nSuccessfully read adjacency list file. \n    Nodes: " +  
         str(len(nodes)) + "\n    Edges: " + str(len(edges)) + "\n")
     return(nodes)
