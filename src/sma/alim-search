@@ -1,7 +1,8 @@
 #!/bin/bash
-al="../../adjacency_lists/prac2.al"
-heu="../../adjacency_lists/prac2.heu"
+al="../../adjacency_lists/g1.al"
+heu="../../adjacency_lists/g1.heu"
 src="1"
-dst="15"
+dst="21"
+print_debug="1"
 
-python astar.py $al $heu $src $dst
+python smastar2.py $al $heu $src $dst $print_debug

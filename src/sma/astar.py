@@ -10,7 +10,8 @@ from smanode import s_node
 from parseAL import get_graph
 from parseHeu import get_heuristics
 
-MAX_NODES = 6
+MAX_NODES = 8
+INF = sys.maxint
 
 ##
 # Wrapper for the search harness script to call.
@@ -46,7 +47,7 @@ def alzheimers_simulator(src, dst, total_cost):
         print_path(open_)
 
         q = open_[0]
-        del open_[0]
+        #del open_[0]
         
         # This check is so that I can find alternative paths.
         q.visited = True
@@ -70,6 +71,7 @@ def alzheimers_simulator(src, dst, total_cost):
                 # Calculate the heuristic.
                 c.g = float(q.g) + float(c.get_edge(c, q).cost)
                 c.f = c.g + c.h
+
                 #c.f = max(q.f, c.g + c.h)
             
 
@@ -80,7 +82,14 @@ def alzheimers_simulator(src, dst, total_cost):
 
                     open_.insert(0, c)
 
-            # open_.append(q)
+            if successors:
+                q.F = min(successors, key=lambda x: x.f).f
+            else:
+                del open_[0]
+                q.f = INF
+
+            if q.name not in [o.name for o in open_]: 
+                open_.remove(q)
 
             open_.sort(key=lambda o: (o.f, -o.depth))
 
@@ -90,6 +99,8 @@ def alzheimers_simulator(src, dst, total_cost):
             #     q.f = best.f
 
         else:
+            q.f = INF
+            del open_[0]
             sys.stdout.write("Giving up on path: ")
             print_path(get_partial_path(q))
     return q

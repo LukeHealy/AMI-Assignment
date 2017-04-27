@@ -384,3 +384,43 @@ and a new f-cost limit
    result,best.f ← RBFS(problem,best,min(f_limit,alternative))
    if result ≠ failure then return result
 ~~~
+
+# Mine2
+
+~~~c
+Init the queue
+Init the source node etc, add to the queue
+
+While the source f-cost is not infinity.
+    If the open queue becomes empty, no solution exists.
+        return fail
+        
+    Get the most promising node.
+
+    If we have a goal in the queue, record it's path.
+
+    If there are more successors available that we have not yet seen.
+        Get the next successor.
+        Set the successors depth to one more than the "parent".
+
+        If this isnt a goal and we're at max depth, 
+            set cost to infinity.
+        Otherwise set the costs.
+            Get the cost from the "parent" to the successor.
+            The f-cost equals the heuristic plus the total cost from the root.
+            f-cost = max(f-cost, parent.f-cost).
+
+    If no more successors to generate.
+        Set the best cost to infinity.
+        If best has some successors (i.e not a leaf node)
+            Backup the best successors cost as best's new fcost.
+            Reset the successor list.
+
+    If we are out of memory.
+        Get the worst option and remove it.
+
+    If there was a successor generated.
+        If succ is not already in open_, add it.
+ 
+    Sort the open_ list by f-cost and depth, prioritising f-cost.
+~~~

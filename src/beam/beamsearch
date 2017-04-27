@@ -1,10 +1,10 @@
 #!/bin/bash
-al="../../adjacency_lists/prac2.al"
-heu="../../adjacency_lists/prac2.heu"
+al="../../adjacency_lists/g1.al"
+heu="../../adjacency_lists/g1.heu"
 src="1"
-dst="15"
-k="2"
-nigel_thornberrys_graph_safari="1"
+dst="21"
+k="3"
+cont="1"
 debug="0"
 
-python beam.py $al $heu $src $dst $k $nigel_thornberrys_graph_safari $debug
+python beam.py $al $heu $src $dst $k $cont $debug

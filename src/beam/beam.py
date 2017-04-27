@@ -10,8 +10,8 @@ from operator import attrgetter
 #
 def search(src, dst, k, find_all, print_debug):
     if k < 1:
-        print "k < 1, wtf?"
-        return None
+        print "Why is k < 1?"
+        exit()
 
     solutions = beam_informercial(k, src, dst, find_all, print_debug)
 
@@ -34,6 +34,7 @@ def beam_informercial(k, src, dst, find_all, print_debug):
 
     node = src
     node.parent = None
+    node.path = []
     node.path.append(node.name)
     frontier = []
     frontier.append(src)
@@ -128,7 +129,7 @@ if __name__ == '__main__':
 
     solutions = search(src_node, dst_node, int(sys.argv[5]), int(sys.argv[6]), int(sys.argv[7]))
 
-    if solutions != None:
+    if solutions != None and len(solutions) > 0:
         print
         print "Solution Path:"
         print_path(solutions[0])
@@ -136,6 +137,10 @@ if __name__ == '__main__':
         print "Alternate Paths:"
         for s in solutions[1:]:
             print_path(s)
+    else:
+        print "No solutions found. Running again in verbose mode."
+        solutions = search(src_node, dst_node, int(sys.argv[5]), int(sys.argv[6]), 1)
+
 
 
     

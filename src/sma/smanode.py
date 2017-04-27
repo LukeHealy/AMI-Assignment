@@ -2,6 +2,7 @@
 # A node in a graph.
 #
 import copy
+import sys
 
 class s_node:
 
@@ -15,9 +16,10 @@ class s_node:
         self.visited = False
         self.depth = 0
         self.h = None
-        self.best_forgotten_f = None
         self.f = None
         self.g = None
+        self.F = None
+        self.is_src = False
     ##
     # QnD toString
     #
@@ -43,28 +45,30 @@ class s_node:
                 return e
             elif e.src.name == dst.name and e.dst.name == src.name:
                 return e
+    
+    def print_path(self, solution):
+        ans = ""
+        for n in solution:
+            ans += n.name + ", "
+
+        print("[" + ans[0:len(ans) - 2] + "]")
+
 
     def more_successors(self):
-        return len(self.successors) < len(filter(lambda c: not c.name == self.parent.name, self.children))
+        #sys.stdout.write("Children: ")
+        #self.print_path(self.children)
+        #sys.stdout.write("Successors: ")
+        #self.print_path(self.successors)
+        return len(self.successors) < len(filter(lambda c: c.name != self.parent.name and not c.is_src, self.children))
 
-    def generate_next_successor(self):
+    def next_successor(self):
         if self.more_successors():
-            child = filter(lambda c: not c.name == self.parent.name, self.children)[len(self.successors)]
+            child = filter(lambda c: c.name != self.parent.name and not c.is_src, self.children)[len(self.successors)]
+            #print "Set " + child.name + "'s parent to " + self.name
             child.parent = self
             self.successors.append(child)
 
             return self.successors[-1]
-
-    def cleanup_successor(self, node):
-        print self.name
-        names = [node.name for node in self.successors]
-        print names
-        idx = names.index(node.name)
-        print idx
-        for s in self.successors:
-            print s
-        del self.successors[idx]
-
 
 
 
