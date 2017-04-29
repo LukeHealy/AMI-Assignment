@@ -1,10 +1,10 @@
 #!/bin/bash
 #al="../../adjacency_lists/gg_100x100.al"
-al="../../adjacency_lists/g1.al"
+al="../../adjacency_lists/prac2.al"
 #heu="../../adjacency_lists/gg_100x100.heu"
-heu="../../adjacency_lists/g1.heu"
+heu="../../adjacency_lists/prac2.heu"
 src="1"
-dst="21"
-print_debug="1"
+dst="15"
+print_debug="0"
 
 python smastar2.py $al $heu $src $dst $print_debug

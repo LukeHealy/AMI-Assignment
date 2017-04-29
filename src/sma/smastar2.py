@@ -4,7 +4,7 @@ from smanode import s_node
 from parseAL import get_graph
 from parseHeu import get_heuristics
 
-MAX_NODES = 800
+MAX_NODES = 4
 INF = float("inf")
 
 ##
@@ -24,12 +24,12 @@ def search(src, dst, print_debug):
 
     (solutions, iterations) = nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug)
     
-    print "iteratios: " + str(iterations)
+    print "Iterations: " + str(iterations)
 
     if len(solutions) > 0:
         print "Solutions:"
         for s in solutions:
-            print s
+            print s.replace("[Path, ", "[")
     else:
         print "No solution found."
 
@@ -55,10 +55,16 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
         iterations += 1
 
         if dst in open_:
-            print "i: " + str(iterations)
+            if print_debug:
+                print "i: " + str(iterations)
             path = path_to_string(get_partial_path(dst))
             if path not in solutions:
                 solutions.append(path)
+                print "Solution Found - paths in memory:"
+                sys.stdout.write("open queue: ")
+                print_path(open_)
+                for o in open_:
+                    print_path(get_partial_path(o))
 
         # Book keeping ####################################
         if print_debug:
@@ -89,7 +95,6 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
             path = path_to_string(get_partial_path(best))
             if path not in solutions:
                 solutions.append(path)
-            print "cost: " + str(get_path_cost(best))
             return (solutions, iterations)
 
         # Init the successor.
@@ -228,7 +233,8 @@ def goal_test(current, goal):
 def print_path(solution):
     ans = ""
     for n in solution:
-        ans += n.name + ", "
+        if n.name != "Path":
+            ans += n.name + ", "
 
     print("[" + ans[0:len(ans) - 2] + "]")
 
