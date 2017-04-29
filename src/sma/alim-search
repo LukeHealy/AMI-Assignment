@@ -1,5 +1,7 @@
 #!/bin/bash
+#al="../../adjacency_lists/gg_100x100.al"
 al="../../adjacency_lists/g1.al"
+#heu="../../adjacency_lists/gg_100x100.heu"
 heu="../../adjacency_lists/g1.heu"
 src="1"
 dst="21"

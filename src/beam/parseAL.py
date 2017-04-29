@@ -58,28 +58,19 @@ def parse_al(al, mode):
     # Convert the edges src and dest to the new nodes we've just made
     # (Instead of just the name of it).
     for e in edges:
-        e.src = get_node_by_name(e.src)
-        e.dst = get_node_by_name(e.dst)
+        e.src = nodes_[e.src]
+        e.dst = nodes_[e.dst]
 
     # Give each node it's children, based off of edges.
     # Also give each node its edges.
-    for n in nodes:
-        for e in edges:
-            if e.src == n:
-                n.children.append(e.dst)
-                n.edges.append(e)
-            elif e.dst == n:
-                n.children.append(e.src)
-                n.edges.append(e)
-        
+    for e in edges:
+        nodes_[e.src.name].children.append(e.dst)
+        nodes_[e.dst.name].children.append(e.src)
 
-##
-# Utility to resolve a node object by it's name.
-#
-def get_node_by_name(name):
-    for g in nodes:
-        if g.name == name:
-            return g
+        nodes_[e.src.name].edges.append(e)
+        nodes_[e.dst.name].edges.append(e)
+
+
 
 ##
 # I think it might get a graph?

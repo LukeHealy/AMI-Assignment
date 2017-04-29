@@ -1,9 +1,10 @@
 import sys
-import copy
 from beamnode import b_node
 from parseAL import get_graph
 from parseHeu import get_heuristics
 from operator import attrgetter
+
+sys.setrecursionlimit(1000)
 
 ##
 # Wrapper for the search harness script to call.
@@ -65,7 +66,7 @@ def beam_informercial(k, src, dst, find_all, print_debug):
                 print "Possible paths: "
 
             # For every child we havn't yet been to.
-            for c in filter(lambda x: not x.visited, node.children):
+            for c in filter(lambda x: not x.visited and not x.name in node.path, node.children):
                 # Shallow copy the path by slicing all of it.
                 c.path = node.path[:]
                 c.path.append(c.name)
@@ -89,7 +90,8 @@ def beam_informercial(k, src, dst, find_all, print_debug):
                         return paths_found
                 # Append a copy of every child to the beam.
                 else:
-                    beam.append(copy.deepcopy(c))
+                    # Because copy.deepcopy() doth butter no parsnips.
+                    beam.append(c.clone())
 
         # The new frontier is the best k in the beam.
         frontier = sorted(beam, key=lambda x: x.h)[:k]

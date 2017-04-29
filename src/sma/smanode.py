@@ -17,8 +17,6 @@ class s_node:
         self.depth = 0
         self.h = None
         self.f = None
-        self.g = None
-        self.F = None
         self.is_src = False
     ##
     # QnD toString
@@ -54,21 +52,21 @@ class s_node:
         print("[" + ans[0:len(ans) - 2] + "]")
 
 
-    def more_successors(self):
-        #sys.stdout.write("Children: ")
-        #self.print_path(self.children)
-        #sys.stdout.write("Successors: ")
-        #self.print_path(self.successors)
-        return len(self.successors) < len(filter(lambda c: c.name != self.parent.name and not c.is_src, self.children))
+    def next_successor(self, path_to_here, open_):
+        child = self.get_successor(path_to_here, open_)
+        self.successors.append(child)
+        child.parent = self
+        #print "set " + child.name + " parent to " + self.name
+        return child
 
-    def next_successor(self):
-        if self.more_successors():
-            child = filter(lambda c: c.name != self.parent.name and not c.is_src, self.children)[len(self.successors)]
-            #print "Set " + child.name + "'s parent to " + self.name
-            child.parent = self
-            self.successors.append(child)
+    def more_successors(self, path_to_here, open_):
+        child = self.get_successor(path_to_here, open_)
+        return child != None
 
-            return self.successors[-1]
+    def get_successor(self, path_to_here, open_):
+        for c in self.children:
+            if c not in path_to_here and c not in self.successors:
+                return c
 
 
 

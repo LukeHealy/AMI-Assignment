@@ -1,7 +1,0 @@
-#!/bin/bash
-al="../../adjacency_lists/prac2.al"
-heu="../../adjacency_lists/prac2.heu"
-src="1"
-dst="15"
-
-python IDDFS.py $al $heu $src $dst

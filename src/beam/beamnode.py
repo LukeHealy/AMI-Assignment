@@ -30,3 +30,16 @@ class b_node:
 
         return("\Node " + self.name + ": " + child + edge + "h = " + str(self.h) + "/" )
 
+    ##
+    # Returns a deep copy of the node, because deepcopy is mad slow.
+    #
+    def clone(self):
+        new = b_node(str(self.name))
+        new.children = self.children[:]
+        new.edges = self.edges[:]
+        new.path = self.path[:]
+        new.parent = self.parent
+        new.visited = True
+        new.h = float(self.h)
+
+        return new

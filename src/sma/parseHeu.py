@@ -1,5 +1,4 @@
 import sys
-import copy
 
 ##
 # Reads a heuristic file and stores them in each node.
