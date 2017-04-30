@@ -10,7 +10,6 @@ def get_heuristics(filename, graph, src, dst):
         f.close()
 
         heu = {}
-        heu[src.name] = sys.maxint / 2
         heu[dst.name] = 0
         
         check_file(contents, graph)

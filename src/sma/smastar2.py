@@ -54,8 +54,6 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
         iterations += 1
 
         if dst in open_:
-            if print_debug:
-                print "i: " + str(iterations)
             path = path_to_string(get_partial_path(dst))
             if path not in solutions:
                 if get_path_cost(dst) < optimal_cost:
@@ -148,7 +146,6 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
             # Get the worst option and remove it.
             worst_leaves = filter(lambda x: x not in get_partial_path(best), open_)
             worst = worst_leaves[-1]
-            #print_path(worst_leaves)
 
             if print_debug:
                 print "    OUT  OF MEMORY"
@@ -165,19 +162,6 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
 
     return (solutions, iterations)
 
-##
-# Sets the f-cost of a node to the best f-cost of its successors.
-#
-# def backup(best, best_succ, print_debug):
-#     old_f = best.f
-#     if best.parent != None:
-#         if print_debug:
-#             print "    Backup " + best.name + " [" + str(best.f) + "] with " + best_succ.name + " [" + str(best_succ.f) + "]"
-#         best.f = best_succ.f
-#         if best.f != old_f:
-#             #backup(best.parent, best, print_debug)
-#             if best.parent.successors:
-#                 backup(best.parent, min(best.parent.successors, key=lambda x: x.f), print_debug)
 
 ##
 # Sets the f-cost of a node to the best f-cost of its successors.
@@ -276,6 +260,4 @@ if __name__ == '__main__':
     dst_node = get_node_by_name(nodes, sys.argv[4])
     get_heuristics(sys.argv[2], nodes, src_node, dst_node)
     search(src_node, dst_node, int(sys.argv[5]))
-
-    exit(0)
 

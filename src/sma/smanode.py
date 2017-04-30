@@ -70,28 +70,6 @@ class s_node:
             child.parent = self
             self.successors.append(child)
         return child
-        # if child != None:
-        #     if child in open_:
-        #         fcost = child.f
-        #     else:
-        #         child.parent = self
-        #         self.successors.append(child)
-        #         return child
-
-        #     ## Seen before.
-        #     # make copy
-        #     temp = s_node(child.name)
-        #     temp.parent = self
-        #     temp.edges = child.edges[:]
-
-        #     newf = self.get_path_cost(temp) + child.h
-            
-        #     if newf <= fcost:
-        #         child.parent = self
-
-        #     self.successors.append(child)
-        #     return child
-
 
 
     def get_successor(self, path_to_here, open_):

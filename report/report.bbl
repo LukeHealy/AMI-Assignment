@@ -19,6 +19,37 @@
 
 \refsection{0}
   \sortlist[entry]{nty/global/}
+    \entry{korf_paper}{inproceedings}{}
+      \name{author}{1}{}{%
+        {{hash=38a41e4859c4176ad897ff5370769d28}{%
+           family={Korf},
+           family_i={K\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {San Jose, California}%
+      }
+      \list{publisher}{1}{%
+        {AAAI Press}%
+      }
+      \strng{namehash}{38a41e4859c4176ad897ff5370769d28}
+      \strng{fullhash}{38a41e4859c4176ad897ff5370769d28}
+      \field{sortinit}{K}
+      \field{sortinithash}{a7d5b3aec5a0890aae7baf85a209abfc}
+      \field{labelyear}{1992}
+      \field{datelabelsource}{}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{booktitle}{Proceedings of the Tenth National Conference on Artificial Intelligence}
+      \field{isbn}{0-262-51063-4}
+      \field{series}{AAAI'92}
+      \field{title}{Linear-Space best-First Search: Summary of results}
+      \field{year}{1992}
+      \field{pages}{129\bibrangedash 134}
+      \range{pages}{6}
+      \verb{url}
+      \verb http://dl.acm.org/citation.cfm?id=1867135.1867155
+      \endverb
+    \endentry
     \entry{russell_paper}{inproceedings}{}
       \name{author}{1}{}{%
         {{hash=143fa183327d9fcd9de18eec99d6ca97}{%

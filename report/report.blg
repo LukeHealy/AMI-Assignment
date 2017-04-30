@@ -1,15 +1,15 @@
 [0] Config.pm:343> INFO - This is Biber 2.5
 [0] Config.pm:346> INFO - Logfile is 'report.blg'
-[61] biber-darwin:290> INFO - === Sun Apr 30, 2017, 22:07:02
-[87] Biber.pm:351> INFO - Reading 'report.bcf'
-[180] Biber.pm:773> INFO - Using all citekeys in bib section 0
-[193] Biber.pm:3493> INFO - Processing section 0
-[207] Biber.pm:3657> INFO - Looking for bibtex format file 'references.bib' for section 0
-[209] bibtex.pm:1187> INFO - Decoding LaTeX character macros into UTF-8
-[210] bibtex.pm:1048> INFO - Found BibTeX data source 'references.bib'
-[231] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
-[231] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
-[232] Biber.pm:3306> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
-[232] Biber.pm:3310> INFO - No sort tailoring available for locale 'en-US'
-[236] bbl.pm:526> INFO - Writing 'report.bbl' with encoding 'ascii'
-[236] bbl.pm:619> INFO - Output to report.bbl
+[62] biber-darwin:290> INFO - === Sun Apr 30, 2017, 23:34:41
+[90] Biber.pm:351> INFO - Reading 'report.bcf'
+[193] Biber.pm:773> INFO - Using all citekeys in bib section 0
+[208] Biber.pm:3493> INFO - Processing section 0
+[226] Biber.pm:3657> INFO - Looking for bibtex format file 'references.bib' for section 0
+[231] bibtex.pm:1187> INFO - Decoding LaTeX character macros into UTF-8
+[237] bibtex.pm:1048> INFO - Found BibTeX data source 'references.bib'
+[286] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'normalization = NFD' with 'normalization = prenormalized'
+[287] UCollate.pm:66> INFO - Overriding locale 'en-US' defaults 'variable = shifted' with 'variable = non-ignorable'
+[287] Biber.pm:3306> INFO - Sorting list 'nty/global/' of type 'entry' with scheme 'nty' and locale 'en-US'
+[287] Biber.pm:3310> INFO - No sort tailoring available for locale 'en-US'
+[290] bbl.pm:526> INFO - Writing 'report.bbl' with encoding 'ascii'
+[291] bbl.pm:619> INFO - Output to report.bbl
