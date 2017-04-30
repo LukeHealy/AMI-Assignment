@@ -1,0 +1,12 @@
+#!/bin/bash
+#al="../../adjacency_lists/g1.al"
+#heu="../../adjacency_lists/g1.heu"
+al="../../adjacency_lists/gg_10000x10000.al"
+heu="../../adjacency_lists/gg_10000x10000.heu"
+src="1"
+dst="20000"
+k="2"
+cont="0"
+debug="0"
+
+python beam.py $al $heu $src $dst $k $cont $debug

@@ -10,14 +10,14 @@ class s_node:
         self.name = name_
         self.children = []
         self.edges = []
-        self.path = []
         self.successors = []
         self.parent = None
-        self.visited = False
         self.depth = 0
         self.h = None
         self.f = None
         self.is_src = False
+        self.INF = float("inf")
+
     ##
     # QnD toString
     #
@@ -52,16 +52,47 @@ class s_node:
         print("[" + ans[0:len(ans) - 2] + "]")
 
 
+    ##
+    # Follows the parents up until the source and counts the cost.
+    #
+    def get_path_cost(self, node):
+        cost = 0
+        while node.parent.parent != None:
+            cost += float(node.get_edge(node, node.parent).cost)
+            node = node.parent
+
+        return cost
+
     def next_successor(self, path_to_here, open_):
         child = self.get_successor(path_to_here, open_)
-        self.successors.append(child)
-        child.parent = self
-        #print "set " + child.name + " parent to " + self.name
-        return child
 
-    def more_successors(self, path_to_here, open_):
-        child = self.get_successor(path_to_here, open_)
-        return child != None
+        if child != None:
+            child.parent = self
+            self.successors.append(child)
+        return child
+        # if child != None:
+        #     if child in open_:
+        #         fcost = child.f
+        #     else:
+        #         child.parent = self
+        #         self.successors.append(child)
+        #         return child
+
+        #     ## Seen before.
+        #     # make copy
+        #     temp = s_node(child.name)
+        #     temp.parent = self
+        #     temp.edges = child.edges[:]
+
+        #     newf = self.get_path_cost(temp) + child.h
+            
+        #     if newf <= fcost:
+        #         child.parent = self
+
+        #     self.successors.append(child)
+        #     return child
+
+
 
     def get_successor(self, path_to_here, open_):
         for c in self.children:

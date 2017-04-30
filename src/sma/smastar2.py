@@ -1,10 +1,9 @@
-import copy
 import sys
 from smanode import s_node
 from parseAL import get_graph
 from parseHeu import get_heuristics
 
-MAX_NODES = 4
+MAX_NODES = 15
 INF = float("inf")
 
 ##
@@ -43,7 +42,7 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
     open_ = []
     open_.append(src)
     # Init the source node etc.
-
+    optimal_cost = INF
     src.depth = 1
     src.f = src.h
     src.parent = s_node("Path")
@@ -59,12 +58,19 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
                 print "i: " + str(iterations)
             path = path_to_string(get_partial_path(dst))
             if path not in solutions:
-                solutions.append(path)
-                print "Solution Found - paths in memory:"
-                sys.stdout.write("open queue: ")
-                print_path(open_)
-                for o in open_:
-                    print_path(get_partial_path(o))
+                if get_path_cost(dst) < optimal_cost:
+                    optimal_cost = get_path_cost(dst)
+                    solutions = []
+                elif get_path_cost(dst) == optimal_cost:
+                    solutions.append(path)
+                    sys.stdout.write("Solution Found, cost: ")
+                    print get_path_cost(dst)
+                    sys.stdout.write("open queue: ")
+                    print_path(open_)
+                    print "Paths in memory:"
+                    for o in open_:
+                        print_path(get_partial_path(o))
+                    print
 
         # Book keeping ####################################
         if print_debug:
@@ -74,11 +80,6 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
             for o in open_:
                 print o.name + " " + str(o.f)
         ###################################################
-
-        # If the open queue becomes empty, no solution exists.
-        if not open_:
-            print "Fail"
-            return
 
         # Get the most promising node.
         best = open_[0]
@@ -92,18 +93,13 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
 
         # If we have a goal in the queue, record it's path.
         if goal_test(best, dst):
-            path = path_to_string(get_partial_path(best))
-            if path not in solutions:
-                solutions.append(path)
             return (solutions, iterations)
 
         # Init the successor.
-        succ = None
+        succ = best.next_successor(get_partial_path(best), open_)
 
         # If there are more successors available that we have not yet seen.
-        if best.more_successors(get_partial_path(best), open_):
-            # Get the next successor.
-            succ = best.next_successor(get_partial_path(best), open_)
+        if succ != None:
 
             # Book keeping ####################################
             if print_debug:
@@ -160,11 +156,9 @@ def nigel_thornberrys_absolutely_thrashing_search_safari(src, dst, print_debug):
 
             open_.remove(worst)
 
-        # If there was a successor generated.
+        # If there was a successor generated and it's woth adding.
         if succ != None and succ not in open_ and succ.f < INF:
-                if print_debug:
-                    print "Put " + succ.name + " in open_"
-                open_.append(succ)
+            open_.append(succ)
 
         # Sort the open_ list by f-cost and depth, prioritising f-cost.
         open_.sort(key=lambda x: (x.f, -x.depth))
@@ -282,4 +276,6 @@ if __name__ == '__main__':
     dst_node = get_node_by_name(nodes, sys.argv[4])
     get_heuristics(sys.argv[2], nodes, src_node, dst_node)
     search(src_node, dst_node, int(sys.argv[5]))
+
+    exit(0)
 

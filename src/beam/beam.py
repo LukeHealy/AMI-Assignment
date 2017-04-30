@@ -4,8 +4,6 @@ from parseAL import get_graph
 from parseHeu import get_heuristics
 from operator import attrgetter
 
-sys.setrecursionlimit(1000)
-
 ##
 # Wrapper for the search harness script to call.
 #
