@@ -1,0 +1,10 @@
+#!/bin/bash
+al="../../adjacency_lists/romania.al"
+heu="../../adjacency_lists/romania.heu"
+src="Arad"
+dst="Bucharest"
+k="2"
+cont="0"
+debug="0"
+
+python beam.py $al $heu $src $dst $k $cont $debug

@@ -1,8 +1,3 @@
 #!/bin/bash
-al="../../adjacency_lists/romania.al"
-heu="../../adjacency_lists/romania.heu"
-src="Arad"
-dst="Bucharest"
-print_debug="0"
 
-python smastar2.py $al $heu $src $dst $print_debug
+python smastar2.py $1 $2 $3 $4 $5
